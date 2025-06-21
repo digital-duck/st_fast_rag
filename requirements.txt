@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-dotenv
+langchain-anthropic
+langchain-openai
+langchain-google-genai
+streamlit
+httpx # For async HTTP requests from Streamlit to FastAPI
+sqlalchemy # For ORM
+pysqlite3-binary # packaged separately, with improvements
