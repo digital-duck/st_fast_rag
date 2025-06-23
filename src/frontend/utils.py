@@ -23,7 +23,7 @@ def initialize_llm_config_session_state():
     if "llm_model" not in st.session_state:
         st.session_state.llm_model = "claude-3-5-sonnet-20240620"
     if "temperature" not in st.session_state:
-        st.session_state.temperature = 0.7
+        st.session_state.temperature = 0.3
     if "max_tokens" not in st.session_state:
         st.session_state.max_tokens = 1024
     if "rag_enabled" not in st.session_state:

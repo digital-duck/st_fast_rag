@@ -40,7 +40,7 @@ class GenerateRequest(BaseModel):
     question: str
     llm_provider: Literal["claude", "openai", "gemini"]
     llm_model: str
-    temperature: float = 0.7
+    temperature: float = 0.3
     max_tokens: int = 1024
     session_id: str # To associate with chat history
     rag_enabled: bool = False # Placeholder for future RAG context
