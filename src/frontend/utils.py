@@ -71,7 +71,17 @@ async def call_generate_stream_api(
                     yield chunk.decode("utf-8")
 
         except httpx.HTTPStatusError as e:
-            st.error(f"Backend HTTP error: {e.response.status_code} - {e.response.text}")
+            error_text = f"Status code: {e.response.status_code}. Response: "
+            try:
+                # Ensure the response body is read before accessing .text
+                # and to prevent "Attempted to access streaming response content..."
+                await e.response.aread()
+                error_text += e.response.text
+            except Exception as read_exc:
+                error_text += f"(Failed to read error response body: {read_exc})"
+
+            st.error(f"Backend HTTP error: {error_text}")
+
             # Ensure the response is closed/drained on error to prevent resource leaks
             if e.response and not e.response.is_closed:
                 await e.response.aclose()
