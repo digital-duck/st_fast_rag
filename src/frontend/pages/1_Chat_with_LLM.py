@@ -62,6 +62,18 @@ if prompt := st.chat_input("Say something..."):
 
         async def get_streaming_response():
             try:
+                # # Debug: Print values being sent to the API
+                # st.write("--- Debug: API Call Parameters ---")
+                # st.write(f"Question: {prompt}")
+                # st.write(f"LLM Provider: {st.session_state.llm_provider}")
+                # st.write(f"LLM Model: {st.session_state.llm_model}")
+                # st.write(f"Temperature: {st.session_state.temperature}")
+                # st.write(f"Max Tokens: {st.session_state.max_tokens}")
+                # st.write(f"Session ID: {st.session_state.chat_session_id}")
+                # st.write(f"RAG Enabled: {st.session_state.rag_enabled}")
+                # st.write("--- End Debug ---")
+
+
                 # Call the backend API for streaming LLM response
                 stream_generator = call_generate_stream_api(
                     question=prompt,
@@ -89,13 +101,17 @@ if prompt := st.chat_input("Say something..."):
                     "llm_model": st.session_state.llm_model      # Include for history display consistency
                 })
 
-                await save_chat_message_to_backend(
-                    session_id=st.session_state.chat_session_id,
-                    role="assistant",
-                    message=st.session_state.current_response,
-                    llm_provider=st.session_state.llm_provider,
-                    llm_model=st.session_state.llm_model
-                )
+                # fix duplicate saving of assistant message
+                # # The assistant's message is already saved by the backend's /generate_stream endpoint.
+                # # No need to call save_chat_message_to_backend here for the assistant's response.
+
+                # await save_chat_message_to_backend(
+                #     session_id=st.session_state.chat_session_id,
+                #     role="assistant",
+                #     message=st.session_state.current_response,
+                #     llm_provider=st.session_state.llm_provider,
+                #     llm_model=st.session_state.llm_model
+                # )
 
                 # No need to reload entire history here, as we just appended it and saved it.
                 # The next refresh of the page (e.g., new prompt or navigating back) will load from DB.

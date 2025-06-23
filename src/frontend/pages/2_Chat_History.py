@@ -16,7 +16,9 @@ st.markdown("Review your past conversations with the LLM.")
 if st.session_state.chat_session_id:
     st.markdown(f"**Current Session ID:** `{st.session_state.chat_session_id}`")
 
-    @st.cache_data(show_spinner="Loading chat history...")
+    # # Removed @st.cache_data to ensure fresh history is loaded each time.
+    # # Caching was preventing new messages from appearing.
+    # @st.cache_data(show_spinner="Loading chat history...")
     def load_chat_history_sync(session_id_to_load: str):
         """Synchronous wrapper to load chat history from async backend."""
         return asyncio.run(get_chat_history_from_backend(session_id_to_load))
