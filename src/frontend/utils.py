@@ -81,7 +81,6 @@ async def call_generate_stream_api(
                 error_text += f"(Failed to read error response body: {read_exc})"
 
             st.error(f"Backend HTTP error: {error_text}")
-
             # Ensure the response is closed/drained on error to prevent resource leaks
             if e.response and not e.response.is_closed:
                 await e.response.aclose()
