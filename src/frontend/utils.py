@@ -19,9 +19,9 @@ API_BASE_URL = f"http://{BACKEND_HOST}:{BACKEND_PORT}"
 def initialize_llm_config_session_state():
     """Initializes LLM configuration in Streamlit session state."""
     if "llm_provider" not in st.session_state:
-        st.session_state.llm_provider = "claude"
+        st.session_state.llm_provider = "gemini"
     if "llm_model" not in st.session_state:
-        st.session_state.llm_model = "claude-3-5-sonnet-20240620"
+        st.session_state.llm_model = "gemini-2.5-flash"
     if "temperature" not in st.session_state:
         st.session_state.temperature = 0.3
     if "max_tokens" not in st.session_state:

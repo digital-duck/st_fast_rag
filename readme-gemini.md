@@ -54,6 +54,16 @@ conda activate rag
 3. **Install Dependencies:**  
 ```bash
 pip install -r requirements.txt
+
+cd st_fast_rag/src/backend
+python database.py  # create tables
+
+sh run_fastapi.sh
+
+# in another terminal
+conda activate rag
+cd st_fast_rag
+sh run_streamlit.sh
 ```
 
 4. Configure Environment Variables:  
