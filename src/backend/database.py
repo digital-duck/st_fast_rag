@@ -44,10 +44,15 @@ class Note(Base):
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=func.now())
     title = Column(String, index=True, nullable=False)
+    url = Column(Text, nullable=False)
     content = Column(Text, nullable=False)
+    comments = Column(Text, nullable=False)
+    tags = Column(Text, nullable=False)
 
     def __repr__(self):
-        return f"<Note(id={self.id}, title='{self.title}', content='{self.content[:50]}...')>"
+        return f"""
+        <Note(id={self.id}, title='{self.title}', url='{self.url}', content='{self.content[:50]}...', comments='{self.comments[:50]}...', tags='{self.tags}')>
+        """
 
 # Create a SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

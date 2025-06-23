@@ -14,3 +14,16 @@ touch __init__.py Home.py utils.py pages/0_Configuration.py pages/1_Chat_with_LL
 ```
 
 
+# Roadmap
+
+## Features
+
+- add RAG to chat with PDF doc
+- add RAG to chat with DB
+- 
+
+## Refactoring
+
+- use ag-grid to 
+  - display Chat History
+  - manage Note

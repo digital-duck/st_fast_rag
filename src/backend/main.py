@@ -33,7 +33,10 @@ BACKEND_HOST = os.getenv("BACKEND_HOST", "127.0.0.1")
 BACKEND_PORT = int(os.getenv("BACKEND_PORT", 8000))
 
 # Thread pool for synchronous database operations in async context
-executor = ThreadPoolExecutor(max_workers=5) # Adjust max_workers as needed
+executor = ThreadPoolExecutor(max_workers=1) # Adjust max_workers as needed
+# set max_workers to 1 because SQLite has limited concurrency support
+# For more robust DBs like PostgreSQL, you can increase this.
+
 
 # Define request body model for the API endpoint
 class GenerateRequest(BaseModel):
@@ -117,13 +120,14 @@ async def generate_stream(request: GenerateRequest, db: Session = Depends(get_db
         print(f"An unexpected error occurred: {e}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
 
+# --- chat_history Endpoints ---
+
 @app.get("/chat_history/{session_id}", response_model=List[ChatMessageResponse])
 async def get_session_chat_history(session_id: str, db: Session = Depends(get_db)):
     """Retrieves chat history for a given session ID."""
     history = await asyncio.get_running_loop().run_in_executor(executor, get_chat_history, db, session_id)
     return history
 
-# --- New: Endpoint to save chat messages ---
 @app.post("/chat_history/", response_model=ChatMessageResponse)
 async def create_new_chat_message(message: ChatMessageCreate, db: Session = Depends(get_db)):
     """Creates a new chat message record."""
@@ -131,12 +135,6 @@ async def create_new_chat_message(message: ChatMessageCreate, db: Session = Depe
     return db_message
 
 # --- Notes Endpoints ---
-
-@app.post("/notes/", response_model=NoteResponse)
-async def create_new_note(note: NoteCreate, db: Session = Depends(get_db)):
-    """Creates a new note."""
-    db_note = await asyncio.get_running_loop().run_in_executor(executor, create_note, db, note)
-    return db_note
 
 @app.get("/notes/", response_model=List[NoteResponse])
 async def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -150,6 +148,12 @@ async def read_note(note_id: int, db: Session = Depends(get_db)):
     db_note = await asyncio.get_running_loop().run_in_executor(executor, get_note, db, note_id)
     if db_note is None:
         raise HTTPException(status_code=404, detail="Note not found")
+    return db_note
+
+@app.post("/notes/", response_model=NoteResponse)
+async def create_new_note(note: NoteCreate, db: Session = Depends(get_db)):
+    """Creates a new note."""
+    db_note = await asyncio.get_running_loop().run_in_executor(executor, create_note, db, note)
     return db_note
 
 @app.put("/notes/{note_id}", response_model=NoteResponse)
