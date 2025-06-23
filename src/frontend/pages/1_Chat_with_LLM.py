@@ -101,6 +101,7 @@ if prompt := st.chat_input("Say something..."):
                     "llm_model": st.session_state.llm_model      # Include for history display consistency
                 })
 
+
                 # fix duplicate saving of assistant message
                 # # The assistant's message is already saved by the backend's /generate_stream endpoint.
                 # # No need to call save_chat_message_to_backend here for the assistant's response.
@@ -113,7 +114,9 @@ if prompt := st.chat_input("Say something..."):
                 #     llm_model=st.session_state.llm_model
                 # )
 
-                # No need to reload entire history here, as we just appended it and saved it.
+
+                # No need to reload entire history here, as we just appended it.
+                # The backend has already persisted it.
                 # The next refresh of the page (e.g., new prompt or navigating back) will load from DB.
 
             except Exception as e:
