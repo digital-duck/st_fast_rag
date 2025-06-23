@@ -89,15 +89,11 @@ if prompt := st.chat_input("Say something..."):
                     "llm_model": st.session_state.llm_model      # Include for history display consistency
                 })
 
-                await save_chat_message_to_backend(
-                    session_id=st.session_state.chat_session_id,
-                    role="assistant",
-                    message=st.session_state.current_response,
-                    llm_provider=st.session_state.llm_provider,
-                    llm_model=st.session_state.llm_model
-                )
+                # The assistant's message is already saved by the backend's /generate_stream endpoint.
+                # No need to call save_chat_message_to_backend here for the assistant's response.
 
-                # No need to reload entire history here, as we just appended it and saved it.
+                # No need to reload entire history here, as we just appended it.
+                # The backend has already persisted it.
                 # The next refresh of the page (e.g., new prompt or navigating back) will load from DB.
 
             except Exception as e:
