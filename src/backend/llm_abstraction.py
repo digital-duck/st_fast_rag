@@ -52,9 +52,9 @@ def get_llm(
             openai_api_key=api_key
         )
     elif provider == "gemini":
-        api_key = os.getenv("GOOGLE_API_KEY")
+        api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
-            raise ValueError("GOOGLE_API_KEY environment variable not set.")
+            raise ValueError("GEMINI_API_KEY environment variable not set.")
         return ChatGoogleGenerativeAI(
             model=model_name,
             temperature=temperature,
