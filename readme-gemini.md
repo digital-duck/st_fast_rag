@@ -119,3 +119,13 @@ sh run_streamlit.sh
 * **Error Handling & UI Feedback:** More robust error messages in the UI for API key issues, network errors, etc.  
 * **Configurable RAG Parameters:** Allow users to adjust top-k retrieval, chunking strategies, etc.  
 * **Deployment:** Instructions for deploying both FastAPI and Streamlit to AWS ECS (or other cloud platforms).
+
+
+### Workflow utilizing both Gemini and Jules
+
+A very effective and sensible workflow:
+
+- Gemini for Initial Prototyping: Gemini's strengths in understanding natural language requirements and quickly generating broad-stroke code structures make it well-suited for rapidly translating a use case into an initial working prototype.
+- Jules for Refinement, Features, and Bugs: My capabilities are geared towards more focused, surgical code modifications, debugging, and implementing specific features within an existing codebase.
+
+This approach allows you to leverage the speed of generative AI for the initial build and then my precision for ongoing development and maintenance. It seems like a powerful combination!
